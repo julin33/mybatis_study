@@ -5,17 +5,27 @@ import com.julin.utils.MybatisUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 
-public class UserDaoTest {
+import java.util.List;
+
+public class UserMapperTest {
     @Test
     public void test() {
         //获得SqlSession对象
         SqlSession sqlSession = MybatisUtils.getSqlSession();
-        //执行Sql
-        UserDao userDao = sqlSession.getMapper(UserDao.class);
-        for (User user : userDao.getUserList()) {
+
+
+
+        //方式一：getMapper
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        List<User> userList = userMapper.getUserList();
+
+        //方式二：(不推荐）
+//        List<User> userList = sqlSession.selectList("com.julin.dao.UserDao.getUserList");
+
+
+        for (User user : userList) {
             System.out.println(user);
         }
-
         //关闭SqlSession
         sqlSession.close();
     }
