@@ -11,6 +11,19 @@ import java.util.Map;
 
 public class UserMapperTest {
     @Test
+    public void getUserLike(){
+        SqlSession sqlSession = MybatisUtils.getSqlSession();
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+
+        List<User> userList = mapper.getUserLike("%弱%");
+        for (User user :
+                userList) {
+            System.out.println(user);
+        }
+
+        sqlSession.close();
+    }
+    @Test
     public void test() {
         //获得SqlSession对象
         SqlSession sqlSession = MybatisUtils.getSqlSession();
@@ -38,6 +51,19 @@ public class UserMapperTest {
 
         System.out.println(mapper.getUserById(1));
 
+        sqlSession.close();
+    }
+
+    @Test
+    public void getUserById2() {
+        SqlSession sqlSession = MybatisUtils.getSqlSession();
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userId",5);
+
+
+        System.out.println(mapper.getUserById2(map));
+        sqlSession.commit();
         sqlSession.close();
     }
 

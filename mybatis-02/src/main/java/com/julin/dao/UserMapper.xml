@@ -4,12 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--namespace绑定一个对应的Dao/Mapper接口-->
 <mapper namespace="com.julin.dao.UserMapper">
-    <!--模糊查询-->
-    <select id="getUserLike" resultType="com.julin.pojo.User"> /*通常的返回类型可以省略*/
-        select * from Mybatis.user where name like #{value}
-    </select>
     <!--select查询语句-->
-    <select id="getUserList" resultType="com.julin.pojo.User">
+    <select id="getUserList" resultType="user">
         select * from mybatis.user
     </select>
 
@@ -17,18 +13,11 @@
     <select id="getUserById" resultType="com.julin.pojo.User" parameterType="int">
         select * from mybatis.user where id = #{id}
     </select>
-    <select id="getUserById2" resultType="com.julin.pojo.User" parameterType="map">
-        select * from mybatis.user where id = #{userId};
-    </select>
 
 
     <!--添加一个user,对象中的属性可以直接取出来-->
     <insert id="addUser" parameterType="com.julin.pojo.User">
         insert into mybatis.user (id,name,pwd) values (#{id},#{name},#{pwd});
-    </insert>
-
-    <insert id="addUser2" parameterType="map"> /*传递map的key，不需要再new一个对象，参数过多的情况下更加灵活*/
-        insert into mybatis.user (id,name,pwd) values (#{userId},#{userName},#{password});
     </insert>
 
     <!--修改用户-->
