@@ -63,7 +63,6 @@ public class UserMapperTest {
 
 
         System.out.println(mapper.getUserById2(map));
-        sqlSession.commit();
         sqlSession.close();
     }
 

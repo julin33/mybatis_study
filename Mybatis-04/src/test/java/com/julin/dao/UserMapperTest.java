@@ -2,11 +2,15 @@ package com.julin.dao;
 
 import com.julin.pojo.User;
 import com.julin.utils.MybatisUtils;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserMapperTest {
 
@@ -33,6 +37,35 @@ public class UserMapperTest {
         //关闭SqlSession
         sqlSession.close();
     }
+    @Test
+    public void getUserByLimit() {
+        SqlSession sqlSession = MybatisUtils.getSqlSession();
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        HashMap<String, Object> map = new HashMap<String,Object>();
+        map.put("startIndex",0);
+        map.put("pageSize",2);
+        for (User user : mapper.getUserByLimit(map)) {
+            System.out.println(user);
+        }
+        sqlSession.close();
+
+    }
+
+    @Test
+    public void getUserByRowBounds(){
+        SqlSession sqlSession = MybatisUtils.getSqlSession();
+        //RowBounds实现
+        RowBounds rowBounds = new RowBounds(1, 2);
+        //通过java代码实现分页
+        List<User> userList = sqlSession.selectList("com.julin.dao.UserMapper.getUserByRowBounds",null,rowBounds);
+        for (User user : userList) {
+            System.out.println(user);
+        }
+        sqlSession.close();
+
+    }
+
+
 
     @Test
     public void testLog4j(){

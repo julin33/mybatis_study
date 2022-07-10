@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace绑定一个对应的Dao/Mapper接口-->
+<mapper namespace="com.julin.dao.TeacherMapper">
+    <select id="getTeacher" resultMap="TeacherStudent">
+        select  t.id tid, t.name tname, s.id sid, s.name sname, s.tid stid
+        from mybatis.teacher t, mybatis.student s
+        where s.tid = t.id and t.id = #{tid};
+    </select>
+
+    <!--集合中的泛型信息我们用ofType获取-->
+    <resultMap id="TeacherStudent" type="teacher">
+        <result property="id" column="tid"/>
+        <result property="name" column="tname"/>
+       <collection property="students" ofType="Student">
+           <result property="id" column="sid"/>
+           <result property="name" column="sname"/>
+           <result property="tid" column="stid"/>
+       </collection>
+
+    </resultMap>
+
+    <!--===========================-->
+
+    <select id="getTeacher2" resultMap="TeacherStudent2">
+        select * from mybatis.teacher where id = #{tid};
+    </select>
+
+    <select id="getStudent" resultType="student">
+        select * from mybatis.student where tid = #{tid}
+    </select>
+
+    <resultMap id="TeacherStudent2" type="teacher">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <collection property="students"  ofType="Student" column="id" select="getStudent"/>
+    </resultMap>
+</mapper>

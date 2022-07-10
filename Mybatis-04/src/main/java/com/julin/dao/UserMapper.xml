@@ -9,26 +9,13 @@
         select * from mybatis.user
     </select>
 
-    <!--select查询语句-->
-    <select id="getUserById" resultType="com.julin.pojo.User" parameterType="int">
-        select * from mybatis.user where id = #{id}
+    <!--分页查询-->
+    <select id="getUserByLimit" resultType="user" parameterType="map">
+        select * from mybatis.user limit #{startIndex},#{pageSize}
     </select>
 
-
-    <!--添加一个user,对象中的属性可以直接取出来-->
-    <insert id="addUser" parameterType="com.julin.pojo.User">
-        insert into mybatis.user (id,name,pwd) values (#{id},#{name},#{pwd});
-    </insert>
-
-    <!--修改用户-->
-    <update id="updateUser" parameterType="com.julin.pojo.User" >
-        update mybatis.user set name=#{name},pwd=#{pwd} where id=#{id};
-    </update>
-
-    <!--删除用户-->
-    <delete id="deleteUser" parameterType="int">
-        delete from mybatis.user where id=#{id};
-    </delete>
-
-
+    <!--分页查询-->
+    <select id="getUserByRowBounds" resultType="user" >
+        select * from mybatis.user
+    </select>
 </mapper>
