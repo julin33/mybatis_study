@@ -9,15 +9,22 @@
         insert into mybatis.blog (id, title, author, create_time, views)
         values (#{id}, #{title}, #{author}, #{createTime}, #{views});
     </insert>
-    
-    <select id="queryBlogIF" parameterType="map" resultType="blog">
-        select * from mybatis.blog where 1=1 /*一般不会用where 1=1*/
+
+    <sql id="if-title-author">
         <if test="title != null">
             and title = #{title}
         </if>
         <if test="author != null">
             and author = #{author}
         </if>
+    </sql>
+    
+    <select id="queryBlogIF" parameterType="map" resultType="blog">
+        select * from mybatis.blog /*一般不会用where 1=1*/
+        <where>
+            <include refid="if-title-author"/>
+        </where>
+
 
     </select>
 
@@ -54,5 +61,14 @@
         </set>
         where id = #{id}
     </update>
+
+    <select id="queryBlogForeach" parameterType="map" resultType="blog">
+        select * from mybatis.blog
+        <where>
+            <foreach collection="ids" item="id" open="and (" close=")" separator="or">
+                id = #{id}
+            </foreach>
+        </where>
+    </select>
 
 </mapper>

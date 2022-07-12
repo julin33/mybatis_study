@@ -5,9 +5,7 @@ import com.julin.utils.MybatisUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MyTest {
     @Test
@@ -78,6 +76,22 @@ public class MyTest {
         map.put("author","julin");
         map.put("title","微服务");
         mapper.updateBlog(map);
+        sqlSession.close();
+    }
+
+    @Test
+    public void queryBlogForeach(){
+        SqlSession sqlSession = MybatisUtils.getSqlSession();
+        BlogMapper mapper = sqlSession.getMapper(BlogMapper.class);
+        Map map = new HashMap<String,List>();
+        List<String> list = new ArrayList<>();
+        list.add("1");
+        list.add("2");
+        list.add("3");
+
+        map.put("ids",list);
+
+        mapper.queryBlogForeach(map);
         sqlSession.close();
     }
 }
